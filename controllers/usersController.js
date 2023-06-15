@@ -12,7 +12,7 @@ const register = async (req, response) => {
     try{
         const submitData = await userModel.findOne({email})
         if(submitData){
-            console.log("user don dey")
+            console.log("user already exists")
             response.send({message:"user already exists"})
         }else{
                 try{
@@ -34,5 +34,23 @@ const register = async (req, response) => {
         console.log(error)
     }}
 
+    const loginUser = async (req,res)=>{
+        const {email,password} = req.body
+        const user = await userModel.findOne({email})
+        if(!user){
+            console.log("user not found")
+            return res.json({error:"user not found oo"})
+        }
+        if(await bcrypt.compare(password,user.password)){
+            const token = jwt.sign({email:user.email}, JWT_SECRET);
+            if(res.status(201)) {
+                return res.json({status: "ok", data: token});
+            } else {
+                return res.json({error: "error"})
+            }
+        }
+        else res.json({status: "error",error: "invalid password"})
+    }
 
-module.exports = {register,test}
+
+module.exports = {register,test,loginUser}

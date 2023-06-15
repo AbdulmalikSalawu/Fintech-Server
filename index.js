@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 dotenv.config()
 app.use(cors())
 
-const {register,test} = require('./controllers/usersController');
+const {register,test,loginUser} = require('./controllers/usersController');
 
 app.listen(PORT, ()=>{
     console.log("Server has started");
@@ -30,3 +30,4 @@ mongoose.connect(process.env.URI, {
 
 app.get("/testApi", test)
 app.post("/signup", register)
+app.post("/login", loginUser)
