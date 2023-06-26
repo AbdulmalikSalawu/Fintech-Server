@@ -48,11 +48,14 @@ const register = async (req, response) => {
             const token = jwt.sign({email:user.email}, JWT_SECRET);
             if(res.status(201)) {
                 return res.json({status: "ok", data: token});
+                console.log("login successful")
             } else {
                 return res.json({error: "error"})
+                console.log("an error occured")
             }
         }
         else res.json({status: "error",error: "invalid password"})
+        console.log("invalid password")
     }
 
 
