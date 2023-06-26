@@ -1,10 +1,8 @@
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
-
 let userSchema = mongoose.Schema({
     firstname: String,
     lastname: String,
-    phoneNumber: String,
     email: {type:String, unique:true},
     password: String,
 })
@@ -20,6 +18,6 @@ userSchema.pre("save",function(next){
         }
     })
 })
-let userModel = mongoose.model("Fintech",userSchema)
+let userModel = mongoose.model("bankUsers",userSchema)
 
 module.exports = userModel
