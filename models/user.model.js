@@ -7,6 +7,7 @@ let userSchema = mongoose.Schema({
         type:String, 
         unique:true
     },
+    phone-number: String,
     password: String,
     token: {
             type:String,
