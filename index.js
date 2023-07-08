@@ -10,7 +10,7 @@ app.use(cors())
 app.use(bodyparser.json({limit:"50mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
 
-const {register,test,loginUser} = require('./controllers/usersController');
+const {register,test,loginUser,userData} = require('./controllers/usersController');
 
 app.listen(PORT, ()=>{
     console.log("Server has started");
@@ -33,3 +33,4 @@ mongoose.connect(process.env.URI, {
 app.post("/signup", (register))
 app.get("/testApi", test)
 app.post("/login", loginUser)
+app.post("/userData", userData)

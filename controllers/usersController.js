@@ -48,15 +48,32 @@ const register = async (req, response) => {
             const token = jwt.sign({email:user.email}, JWT_SECRET);
             if(res.status(201)) {
                 return res.json({status: "ok", data: token});
-                console.log("login successful")
             } else {
                 return res.json({error: "error"})
-                console.log("an error occured")
             }
         }
         else res.json({status: "error",error: "invalid password"})
         console.log("invalid password")
     }
 
+    const userData = async (req,res)=>{
+        const {token} = req.body;
+        console.log(req.body)
+        try {
+            const user = jwt.verify({token}, JWT_SECRET);
+            console.log(user)
+            const useremail = user.email;
+            await userModel.findOne({email:useremail})
+            .then((data)=>{
+                return res.json({status:"ok",data:data})
+            })
+            .catch((error)=>{
+                console.log(error)
+                return res.json({status:"error",data:error})
+            });}
+            catch(error){
+                console.log(error)
+            }
+        }
 
-module.exports = {register,test,loginUser}
+module.exports = {register,test,loginUser,userData}
