@@ -9,18 +9,17 @@ const test = (req,res)=>{
 }
 
 const register = async (req, response) => {
-    const {firstname,lastname,email,password} = req.body
+    const {firstname,lastname,email,password}= req.body
     try{
         const submitData = await userModel.findOne({email})
         if(submitData){
-            console.log("user already exists")
+            console.log("user don dey")
             response.send({message:"user already exists"})
         }else{
                 try{
                     const done = await userModel.create({firstname,lastname,email,password})
                         if(done){
                             response.send({message:"signup successful",status:true})
-                            console.log("signup is successful")
                         } else {
                             console.log(err)
                             // response.send({message:"an error occured"})
@@ -34,56 +33,68 @@ const register = async (req, response) => {
         }
     catch(error){
         console.log(error)
-    }
-}
+    }}
 
-    const loginUser = async (req,res)=>{
-        const {email,password} = req.body
-        const user = await userModel.findOne({email})
-        if(!user){
-            console.log("user not found")
-            return res.json({error:"user not found oooo"})
-        }
-        if(await bcrypt.compare(password,user.password)){
-            const token = jwt.sign({email:user.email}, JWT_SECRET);
-            if(res.status(201)) {
-                return res.json({status: "ok", data: token});
-            } else {
-                return res.json({error: "error"})
-            }
-        }
-        else res.json({status: "error",error: "invalid password"})
-        console.log("invalid password")
-    }
+    // const loginUser = async (req,res)=>{
+    //     const {email,password} = req.body
+    //     const user = await userModel.findOne({email})
+    //     if(!user){
+    //         console.log("user not found")
+    //         return res.json({error:"user not found oooo"})
+    //     }
+    //     if(await bcrypt.compare(password,user.password)){
+    //         const token = jwt.sign({email:user.email}, JWT_SECRET);
+    //         if(res.status(201)) {
+    //             return res.json({status: "ok", data: token});
+    //         } else {
+    //             return res.json({error: "error"})
+    //         }
+    //     }
+    //     else res.json({status: "error",error: "invalid password"})
+    //     console.log("invalid password")
+    // }
 
-    const userData = async (req,res)=>{
-        const token = req.body;
-        console.log(req.body)
-        try {
-            const user = jwt.toString().verify(token, JWT_SECRET);
-            console.log(user)
-            const useremail = user.email;
-            await userModel.findOne({email:useremail})
-            .then((data)=>{
-                return res.json({status:"ok",data:data})
-            })
-            .catch((error)=>{
-                console.log(error)
-                return res.json({status:"error",data:error})
-            });}
-            catch(error){
-                console.log(error)
-            }
-        }
+    // const userData = async (req,res)=>{
+    //     const token = req.body;
+    //     console.log(req.body)
+    //     try {
+    //         const user = jwt.toString().verify(token, JWT_SECRET);
+    //         console.log(user)
+    //         const useremail = user.email;
+    //         await userModel.findOne({email:useremail})
+    //         .then((data)=>{
+    //             return res.json({status:"ok",data:data})
+    //         })
+    //         .catch((error)=>{
+    //             console.log(error)
+    //             return res.json({status:"error",data:error})
+    //         });}
+    //         catch(error){
+    //             console.log(error)
+    //         }
+    //     }
 
-        const display = async (req,res) =>{
-            try{
-                const show = await userModel.findOne({email})
-                return res.json({data:show})
-                // res.render("users.ejs",{students:show})
-            } catch(err){
-                console.log(err)
-            }
-        }
+    // const userData =  async (req,res)=>{
+    //     try{
+    //     const { firstname } = req.user
+    //     const user = await userModel.findOne({ firstname });
+    //     if (!user) {
+    //         return res.status(404).json({ message: 'User not found.' });
+    //     } 
+    //       res.json(user);
+    //       console.log(user)
+    //     } catch(error) {
+    //         res.status(500).json({ message: 'Internal server error.' });
+    //       }}
+
+        // const display = async (req,res) =>{
+        //     try{
+        //         const show = await userModel.findOne({email})
+        //         return res.json({data:show})
+        //         // res.render("users.ejs",{students:show})
+        //     } catch(err){
+        //         console.log(err)
+        //     }
+        // }
 
 module.exports = {register,test,loginUser,userData}
