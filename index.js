@@ -17,7 +17,7 @@ app.listen(PORT, ()=>{
 })
 
 app.get('/',(req,res)=>{
-    res.render("code is working!!")
+    res.send("code is working!!")
 })
 
 mongoose.connect(process.env.URI, {
