@@ -9,7 +9,7 @@ const test = (req,res)=>{
 }
 
 const register = async (req, response) => {
-    const {firstname,lastname,email,password}= req.body
+    const {firstname,lastname,phoneNumber,email,password}= req.body
     try{
         const submitData = await userModel.findOne({email})
         if(submitData){
@@ -17,7 +17,7 @@ const register = async (req, response) => {
             response.send({message:"user already exists"})
         }else{
                 try{
-                    const done = await userModel.create({firstname,lastname,email,password})
+                    const done = await userModel.create({firstname,lastname,phoneNumber,email,password})
                         if(done){
                             response.send({message:"signup successful",status:true})
                         } else {
