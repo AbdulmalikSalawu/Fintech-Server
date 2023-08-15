@@ -19,7 +19,7 @@ const register = async (req, response) => {
                 try{
                     const done = await userModel.create({firstname,lastname,phoneNumber,email,password})
                         if(done){
-                            response.send({message:"signup successful",status:true})
+                            response.send({message:"Signup successful",status:true})
                         } else {
                             console.log(err)
                             // response.send({message:"an error occured"})
@@ -55,12 +55,11 @@ const register = async (req, response) => {
     }
 
     const userData = async (req,res)=>{
-        const token = req.body;
-        console.log(req.body)
+        const { token } = req.body;
         try {
-            const user = jwt.toString().verify(token, JWT_SECRET);
-            console.log(user)
-            const useremail = user.email;
+            const uniqueUser = jwt.verify(token, JWT_SECRET);
+            // console.log(uniqueUser)
+            const useremail = uniqueUser.email;
             await userModel.findOne({email:useremail})
             .then((data)=>{
                 return res.json({status:"ok",data:data})
@@ -73,19 +72,6 @@ const register = async (req, response) => {
                 console.log(error)
             }
         }
-
-    // const userData =  async (req,res)=>{
-    //     try{
-    //     const { firstname } = req.user
-    //     const user = await userModel.findOne({ firstname });
-    //     if (!user) {
-    //         return res.status(404).json({ message: 'User not found.' });
-    //     } 
-    //       res.json(user);
-    //       console.log(user)
-    //     } catch(error) {
-    //         res.status(500).json({ message: 'Internal server error.' });
-    //       }}
 
         // const display = async (req,res) =>{
         //     try{
