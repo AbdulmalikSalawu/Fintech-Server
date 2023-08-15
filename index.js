@@ -30,21 +30,7 @@ mongoose.connect(process.env.URI, {
     }).catch((err)=>{
         console.log(err)	
 })
-// const authenticateJWT = (req, res, next) => {
-//     const token = req.header('x-auth-token');
-  
-//     if (!token) {
-//       return res.status(401).json({ message: 'Authentication failed: No token provided.' });
-//     }
-  
-//     jwt.verify(token,JWT_SECRET, (err, decoded) => {
-//       if (err) {
-//         return res.status(403).json({ message: 'Authentication failed: Invalid token.' });
-//       }
-//       req.user = decoded;
-//       next();
-//     });
-//   };
+
 app.post("/signup", (register))
 app.get("/testApi", test)
 app.post("/login", loginUser)

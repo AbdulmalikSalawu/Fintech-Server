@@ -5,7 +5,6 @@ let userSchema = mongoose.Schema({
     lastname: String,
     phonenumber: String,
     email: {type:String, unique:true},
-    // token: String,
     password: String,
 })
 

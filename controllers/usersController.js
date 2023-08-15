@@ -58,7 +58,6 @@ const register = async (req, response) => {
         const { token } = req.body;
         try {
             const uniqueUser = jwt.verify(token, JWT_SECRET);
-            // console.log(uniqueUser)
             const useremail = uniqueUser.email;
             await userModel.findOne({email:useremail})
             .then((data)=>{
@@ -72,15 +71,5 @@ const register = async (req, response) => {
                 console.log(error)
             }
         }
-
-        // const display = async (req,res) =>{
-        //     try{
-        //         const show = await userModel.findOne({email})
-        //         return res.json({data:show})
-        //         // res.render("users.ejs",{students:show})
-        //     } catch(err){
-        //         console.log(err)
-        //     }
-        // }
 
 module.exports = {register,test,loginUser,userData}
