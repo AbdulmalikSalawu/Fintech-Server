@@ -10,7 +10,7 @@ app.use(cors())
 app.use(bodyparser.json({limit:"100mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
 
-const {register,test,loginUser,userData} = require('./controllers/usersController');
+const {register,test,loginUser,userData, saveFile} = require('./controllers/usersController');
 
 app.listen(PORT, ()=>{
     console.log("Server has started");
@@ -35,3 +35,4 @@ app.post("/signup", (register))
 app.get("/testApi", test)
 app.post("/login", loginUser)
 app.post("/userData", userData)
+app.post("/saveFile", saveFile)

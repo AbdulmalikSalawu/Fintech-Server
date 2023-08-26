@@ -1,5 +1,5 @@
 const userModel = require("../models/user.model");
-// const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const bcrypt = require("bcrypt")
@@ -72,4 +72,20 @@ const register = async (req, response) => {
             }
         }
 
-module.exports = {register,test,loginUser,userData}
+        const saveFile = (req,res)=>{
+            const myFile = req.body.file
+            const resp = cloudinary.uploader.upload(myFile, {public_id: "olympic_flag"})
+            resp.then((data) => {
+                console.log(data);
+                console.log(data.secure_url);
+                const myImage = data.secure_url
+                res.send({message:"image upload successful",image:myImage})
+            })
+            .catch((err) => {
+                res.send({message:"upload failed"})
+                console.log(err);
+            });
+            // console.log(req.body)
+        }
+
+module.exports = {register,test,loginUser,userData,saveFile}
