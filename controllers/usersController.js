@@ -4,6 +4,12 @@ const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const bcrypt = require("bcrypt")
 
+cloudinary.config({
+    cloud_name: "drxn6gv3x",
+    api_key: "456564468421393",
+    api_secret: "R4xUn1CG2PpBFSlDzyrdsD4dbyw"
+  });
+
 const test = (req,res)=>{
     res.send("hello world")
 }
@@ -85,7 +91,6 @@ const register = async (req, response) => {
                 res.send({message:"upload failed"})
                 console.log(err);
             });
-            // console.log(req.body)
         }
 
 module.exports = {register,test,loginUser,userData,saveFile}
