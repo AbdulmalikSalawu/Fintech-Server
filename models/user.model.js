@@ -6,6 +6,7 @@ let userSchema = mongoose.Schema({
     phonenumber: String,
     email: {type:String, unique:true},
     password: String,
+    newImage: String,
 })
 
 const saltRound = 10
