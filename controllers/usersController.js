@@ -41,6 +41,25 @@ const register = async (req, response) => {
         console.log(error)
     }}
 
+    // const loginUser = async (req,res)=>{
+    //     const {email,password} = req.body
+    //     const user = await userModel.findOne({email})
+    //     if(!user){
+    //         console.log("user not found")
+    //         return res.json({error:"user not found oooo"})
+    //     }
+    //     if(await bcrypt.compare(password,user.password)){
+    //         const token = jwt.sign({email:user.email}, JWT_SECRET);
+    //         if(res.status(201)) {
+    //             return res.json({status: "ok", data: token});
+    //         } else {
+    //             return res.json({error: "error"})
+    //         }
+    //     }
+    //     else res.json({status: "error",error: "invalid password"})
+    //     console.log("invalid password")
+    // }
+
     const loginUser = async (req,res)=>{
         const {email,password} = req.body
         const user = await userModel.findOne({email})
@@ -49,7 +68,9 @@ const register = async (req, response) => {
             return res.json({error:"user not found oooo"})
         }
         if(await bcrypt.compare(password,user.password)){
-            const token = jwt.sign({email:user.email}, JWT_SECRET);
+            const token = jwt.sign({email:user.email}, JWT_SECRET, {
+                expiresIn:10
+            });
             if(res.status(201)) {
                 return res.json({status: "ok", data: token});
             } else {
@@ -63,7 +84,16 @@ const register = async (req, response) => {
     const userData = async (req,res)=>{
         const { token } = req.body;
         try {
-            const uniqueUser = jwt.verify(token, JWT_SECRET);
+            const uniqueUser = jwt.verify(token, JWT_SECRET, (err, res) => {
+                if(err){
+                    return "token expired";
+                }
+                return res;
+            });
+            if(uniqueUser=="token expired"){
+                return res.send({status: "error", data: "token expired"})
+            }
+
             const useremail = uniqueUser.email;
             await userModel.findOne({email:useremail})
             .then((data)=>{
