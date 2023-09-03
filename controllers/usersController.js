@@ -69,7 +69,7 @@ const register = async (req, response) => {
         }
         if(await bcrypt.compare(password,user.password)){
             const token = jwt.sign({email:user.email}, JWT_SECRET, {
-                expiresIn:10
+                expiresIn:10,
             });
             if(res.status(201)) {
                 return res.json({status: "ok", data: token});
@@ -84,7 +84,7 @@ const register = async (req, response) => {
     const userData = async (req,res)=>{
         const { token } = req.body;
         try {
-            const uniqueUser = jwt.verify(token, JWT_SECRET, (err, res) => {
+            const uniqueUser = jwt.verify(token, JWT_SECRET,(err,res) => {
                 if(err){
                     return "token expired";
                 }
