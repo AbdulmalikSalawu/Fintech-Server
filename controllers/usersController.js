@@ -41,25 +41,6 @@ const register = async (req, response) => {
         console.log(error)
     }}
 
-    // const loginUser = async (req,res)=>{
-    //     const {email,password} = req.body
-    //     const user = await userModel.findOne({email})
-    //     if(!user){
-    //         console.log("user not found")
-    //         return res.json({error:"user not found oooo"})
-    //     }
-    //     if(await bcrypt.compare(password,user.password)){
-    //         const token = jwt.sign({email:user.email}, JWT_SECRET);
-    //         if(res.status(201)) {
-    //             return res.json({status: "ok", data: token});
-    //         } else {
-    //             return res.json({error: "error"})
-    //         }
-    //     }
-    //     else res.json({status: "error",error: "invalid password"})
-    //     console.log("invalid password")
-    // }
-
     const loginUser = async (req,res)=>{
         const {email,password} = req.body
         const user = await userModel.findOne({email})
@@ -91,7 +72,7 @@ const register = async (req, response) => {
                 return res;
             });
             if(uniqueUser=="token expired"){
-                return res.send({status: "error", data: "token expired"})
+                return res.json({status: "error", data: "token expired"})
             }
 
             const useremail = uniqueUser.email;
@@ -112,6 +93,7 @@ const register = async (req, response) => {
             const myFile = req.body.file
             const resp = cloudinary.uploader.upload(myFile, {public_id: "olympic_flag"})
             resp.then((data) => {
+
                 console.log(data);
                 console.log(data.secure_url);
                 const myImage = data.secure_url
@@ -123,4 +105,35 @@ const register = async (req, response) => {
             });
         }
 
-module.exports = {register,test,loginUser,userData,saveFile}
+        const forgotpassword = async (req,res)=>{
+            const email = req.body;
+            try {
+                const oldUser = await User.findOne({ email })
+                if(!oldUser){
+                    return res.json({status:"user doesn't exist"})
+                }
+                const secret = JWT_SECRET + oldUser.password;
+                const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"5m"})
+                const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+                console.log(link)
+            } 
+            catch (error){}
+        }
+
+        const resetpassword = async (req,res)=>{
+            const { id, token} = req.params;
+            console.log(req.params)
+            const oldUser = await User.findOne({_id: id})
+            if(!oldUser){
+                return res.json({status:"user doesn't exist"})
+            }
+            const secret = JWT_SECRET + oldUser.password;
+            try {
+                const verify = jwt.verify(token, secret);
+                res.send("verified")
+            } catch (error) {
+                res.send("not verified")
+            }
+        }
+
+module.exports = {register,test,loginUser,userData,saveFile,forgotpassword,resetpassword}
