@@ -106,7 +106,7 @@ const register = async (req, response) => {
         }
 
         const forgotpassword = async (req,res)=>{
-            const email = req.body;
+            const {email} = req.body;
             try {
                 const oldUser = await User.findOne({ email })
                 if(!oldUser){
