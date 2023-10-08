@@ -10,8 +10,9 @@ app.use(cors())
 app.use(bodyparser.json({limit:"100mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
 app.set("viewengine", "ejs")
+app.use(express.urlencoded({extended: false}))
 
-const {register,test,loginUser,userData, saveFile,forgotpassword,resetpassword} = require('./controllers/usersController');
+const {register,test,loginUser,userData, saveFile,forgotpassword,resetpassword,changepassword} = require('./controllers/usersController');
 
 app.listen(PORT, ()=>{
     console.log("Server has started");
@@ -39,3 +40,4 @@ app.post("/userData", userData)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
 app.get("reset-password/:id/:token", resetpassword)
+app.post("changepassword/:id/:token", changepassword)

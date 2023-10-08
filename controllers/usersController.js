@@ -108,7 +108,7 @@ const register = async (req, response) => {
         const forgotpassword = async (req,res)=>{
             const {email} = req.body;
             try {
-                const oldUser = await User.findOne({ email })
+                const oldUser = await userModel.findOne({ email })
                 if(!oldUser){
                     return res.json({status:"user doesn't exist"})
                 }
@@ -117,23 +117,56 @@ const register = async (req, response) => {
                 const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
                 console.log(link)
             } 
-            catch (error){}
-        }
+            catch (error){
+                console.log(error)
+            }
+        }    
 
         const resetpassword = async (req,res)=>{
             const { id, token} = req.params;
             console.log(req.params)
-            const oldUser = await User.findOne({_id: id})
+            const oldUser = await userModel.findOne({_id: id})
             if(!oldUser){
                 return res.json({status:"user doesn't exist"})
             }
             const secret = JWT_SECRET + oldUser.password;
             try {
                 const verify = jwt.verify(token, secret);
-                res.send("verified")
+                res.render("newPassword",{email:verify.email})
+                // res.send("verified")
             } catch (error) {
+                console.log(error)
                 res.send("not verified")
             }
         }
 
-module.exports = {register,test,loginUser,userData,saveFile,forgotpassword,resetpassword}
+        const changepassword = async (req,res)=>{
+            const { id, token} = req.params;
+            const {password} = req.body 
+            const oldUser = await userModel.findOne({_id: id})
+            if(!oldUser){
+                return res.json({status:"user doesn't exist"})
+            }
+            const secret = JWT_SECRET + oldUser.password;
+            try {
+                const verify = jwt.verify(token, secret);
+                const encryptedPassword = await bcrypt.hash(password, 10);
+                await User.updateOne(
+                    {
+                        _id: id,
+                    },
+                    {
+                        $set: {
+                            password: encryptedPassword
+                        }
+                    }
+                );
+                res.json({status: "password updated"})
+                res.render("index", {email: verify.email, status:"verified"})
+            } catch (error) {
+                console.log(error)
+                res.json({status: "something went wrong"})
+            }
+        }
+
+module.exports = {register,test,loginUser,userData,saveFile,forgotpassword,resetpassword,changepassword}
