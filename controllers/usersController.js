@@ -1,3 +1,5 @@
+const express = require("express");
+const app = express();
 const userModel = require("../models/user.model");
 const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
@@ -114,7 +116,10 @@ const register = async (req, response) => {
                 }
                 const secret = JWT_SECRET + oldUser.password;
                 const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"5m"})
-                const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+
+                //GIVING USERS THE RESET PASSWORD LINK
+                // const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+                const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
                 console.log(link)
             } 
             catch (error){
@@ -124,7 +129,8 @@ const register = async (req, response) => {
 
         const resetpassword = async (req,res)=>{
             const { id, token} = req.params;
-            console.log(req.params)
+            try {console.log(req.params)} 
+            catch (error){console.log(error)}
             const oldUser = await userModel.findOne({_id: id})
             if(!oldUser){
                 return res.json({status:"user doesn't exist"})

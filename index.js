@@ -32,12 +32,18 @@ mongoose.connect(process.env.URI, {
     }).catch((err)=>{
         console.log(err)	
 })
-
+app.get("/testing", (req,res)=>{res.send("woring")})
 app.post("/signup", (register))
 app.get("/testApi", test)
 app.post("/login", loginUser)
 app.post("/userData", userData)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
-app.get("reset-password/:id/:token", resetpassword)
+
+//DIRECTING USERS TO THE RESET PASSWORD LINK
+app.get("/reset-password/:id/:token", (req,res) =>{
+    res.send("hello")
+    const {id,token} = req.params;
+    console.log(req.params)
+})
 app.post("changepassword/:id/:token", changepassword)
