@@ -6,11 +6,13 @@ const dotenv = require('dotenv');
 const cors = require("cors");
 const bodyparser = require("body-parser")
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken")
+const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 dotenv.config()
 app.use(cors())
 app.use(bodyparser.json({limit:"100mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
-app.set("viewengine", "ejs")
+app.set("view engine", "ejs")
 app.use(express.urlencoded({extended: false}))
 
 const {register,test,loginUser,userData, saveFile,forgotpassword,resetpassword,changepassword} = require('./controllers/usersController');
@@ -40,25 +42,7 @@ app.post("/login", loginUser)
 app.post("/userData", userData)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
-app.get("re")
-
-//DIRECTING USERS TO THE RESET PASSWORD LINK
-app.get("/reset-password/:id/:token", async (req,res) =>{
-    // res.send("hello")
-    const {id,token} = req.params;
-    console.log(req.params)
-    const oldUser = await userModel.findOne({_id: id})
-            if(!oldUser){
-                return res.json({status:"user doesn't exist"})
-            }
-            const secret = JWT_SECRET + oldUser.password;
-            try {
-                const verify = jwt.verify(token, secret);
-                // res.render("newPassword",{email:verify.email})
-                res.send("verified")
-            } catch (error) {
-                console.log(error)
-                res.send("not verified")
-            }
-})
+app.get("/reset-password/:id/:token", resetpassword)
 app.post("changepassword/:id/:token", changepassword)
+
+app.use(express.static("public"))
