@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 5000
+const userModel = require("./models/user.model");
 const dotenv = require('dotenv');
 const cors = require("cors");
 const bodyparser = require("body-parser")
@@ -39,11 +40,25 @@ app.post("/login", loginUser)
 app.post("/userData", userData)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
+app.get("re")
 
 //DIRECTING USERS TO THE RESET PASSWORD LINK
-app.get("/reset-password/:id/:token", (req,res) =>{
-    res.send("hello")
+app.get("/reset-password/:id/:token", async (req,res) =>{
+    // res.send("hello")
     const {id,token} = req.params;
     console.log(req.params)
+    const oldUser = await userModel.findOne({_id: id})
+            if(!oldUser){
+                return res.json({status:"user doesn't exist"})
+            }
+            const secret = JWT_SECRET + oldUser.password;
+            try {
+                const verify = jwt.verify(token, secret);
+                // res.render("newPassword",{email:verify.email})
+                res.send("verified")
+            } catch (error) {
+                console.log(error)
+                res.send("not verified")
+            }
 })
 app.post("changepassword/:id/:token", changepassword)

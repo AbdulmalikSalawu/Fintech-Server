@@ -129,8 +129,6 @@ const register = async (req, response) => {
 
         const resetpassword = async (req,res)=>{
             const { id, token} = req.params;
-            try {console.log(req.params)} 
-            catch (error){console.log(error)}
             const oldUser = await userModel.findOne({_id: id})
             if(!oldUser){
                 return res.json({status:"user doesn't exist"})
