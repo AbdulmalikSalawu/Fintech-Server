@@ -17,6 +17,8 @@ app.use(express.urlencoded({extended: false}))
 
 const {register,test,loginUser,userData, saveFile,forgotpassword,resetpassword,changepassword} = require('./controllers/usersController');
 
+app.use(express.static("public"))
+
 app.listen(PORT, ()=>{
     console.log("Server has started");
 })
@@ -43,6 +45,4 @@ app.post("/userData", userData)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
 app.get("/reset-password/:id/:token", resetpassword)
-app.post("changepassword/:id/:token", changepassword)
-
-app.use(express.static("public"))
+app.post("/reset-password/:id/:token", changepassword)

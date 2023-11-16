@@ -115,7 +115,7 @@ const register = async (req, response) => {
                     return res.json({status:"user doesn't exist"})
                 }
                 const secret = JWT_SECRET + oldUser.password;
-                const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"5m"})
+                const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"15m"})
 
                 //GIVING USERS THE RESET PASSWORD LINK
                 // const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
@@ -140,7 +140,7 @@ const register = async (req, response) => {
                 // res.send("verified")
             } catch (error) {
                 console.log(error)
-                res.send("not verified")
+                res.send("oops! your token has expired. Login again via this link")
             }
         }
 
@@ -155,7 +155,7 @@ const register = async (req, response) => {
             try {
                 const verify = jwt.verify(token, secret);
                 const encryptedPassword = await bcrypt.hash(password, 10);
-                await User.updateOne(
+                await userModel.updateOne(
                     {
                         _id: id,
                     },
@@ -165,8 +165,8 @@ const register = async (req, response) => {
                         }
                     }
                 );
-                res.json({status: "password updated"})
-                res.render("index", {email: verify.email, status:"verified"})
+                // res.json({status: "password updated"})
+                res.render("newPassword", {email: verify.email, status:"verified"})
             } catch (error) {
                 console.log(error)
                 res.json({status: "something went wrong"})
