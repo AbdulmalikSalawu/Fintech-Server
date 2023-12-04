@@ -120,7 +120,7 @@ const register = async (req, response) => {
                 //GIVING USERS THE RESET PASSWORD LINK
                 const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
                 // const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
-                // return res.json({link:link})
+                return res.json({link:link})
             } 
             catch (error){
                 console.log(error)
