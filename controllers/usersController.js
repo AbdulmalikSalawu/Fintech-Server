@@ -91,6 +91,15 @@ const register = async (req, response) => {
             }
         }
 
+        const getAllUsers = async () => {
+            try {
+                const myCustomers = await userModel.find({})
+                res.send({status: "ok", data:myCustomers})
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         const saveFile = (req,res)=>{
             const myFile = req.body.file
             const resp = cloudinary.uploader.upload(myFile, {public_id: "olympic_flag"})
@@ -118,8 +127,8 @@ const register = async (req, response) => {
                 const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"15m"})
 
                 //GIVING USERS THE RESET PASSWORD LINK
-                const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
-                // const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
+                // const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+                const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
                 return res.json({link:link})
             } 
             catch (error){
@@ -143,7 +152,7 @@ const register = async (req, response) => {
                 res.send("oops! your token has expired. Login again via this link")
             }
         }
-
+        
         const changepassword = async (req,res)=>{
             const { id, token} = req.params;
             const {password} = req.body 
@@ -172,4 +181,4 @@ const register = async (req, response) => {
             }
         }
 
-module.exports = {register,test,loginUser,userData,saveFile,forgotpassword,resetpassword,changepassword}
+module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword}

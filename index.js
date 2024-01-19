@@ -16,7 +16,7 @@ app.set("view engine", "ejs")
 app.set('views', __dirname + '/views');
 app.use(express.urlencoded({extended: false}))
 
-const {register,test,loginUser,userData, saveFile,forgotpassword,resetpassword,changepassword} = require('./controllers/usersController');
+const {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword, getAllUsers} = require('./controllers/usersController');
 
 app.use(express.static("public"))
 
@@ -43,6 +43,7 @@ app.post("/signup", (register))
 app.get("/testApi", test)
 app.post("/login", loginUser)
 app.post("/userData", userData)
+app.post("/allUsers", getAllUsers)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
 app.get("/reset-password/:id/:token", resetpassword)
