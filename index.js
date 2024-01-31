@@ -16,7 +16,7 @@ app.set("view engine", "ejs")
 app.set('views', __dirname + '/views');
 app.use(express.urlencoded({extended: false}))
 
-const {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword, getAllUsers} = require('./controllers/usersController');
+const {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword} = require('./controllers/usersController');
 
 app.use(express.static("public"))
 
