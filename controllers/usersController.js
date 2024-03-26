@@ -127,8 +127,8 @@ const register = async (req, response) => {
                 const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"15m"})
 
                 //GIVING USERS THE RESET PASSWORD LINK
-                // const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
-                const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
+                const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+                // const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
                 return res.json({link:link})
             } 
             catch (error){
@@ -137,7 +137,7 @@ const register = async (req, response) => {
         }    
 
         const resetpassword = async (req,res)=>{
-            const { id, token} = req.params;
+            const {id, token} = req.params;
             const oldUser = await userModel.findOne({_id: id})
             if(!oldUser){
                 return res.json({status:"user doesn't exist"})
@@ -145,8 +145,8 @@ const register = async (req, response) => {
             const secret = JWT_SECRET + oldUser.password;
             try {
                 const verify = jwt.verify(token, secret);
-                // res.render("newPassword")
-                res.render("./views/newPassword",{email:verify.email,status:"not verified"})
+                res.render("newPassword", {email:verify.email, status:"not verified"})
+                // res.render("./views/newPassword",{email:verify.email,status:"not verified"})
             } catch (error) {
                 console.log(error)
                 res.send("oops! your token has expired. Login again via this link")
