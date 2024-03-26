@@ -12,8 +12,10 @@ dotenv.config()
 app.use(cors())
 app.use(bodyparser.json({limit:"100mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
+const path = require('path');
 // app.set('views', __dirname + '/views');
 app.set("view engine", "ejs")
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: false}))
 
 const {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword} = require('./controllers/usersController');
