@@ -146,7 +146,6 @@ const register = async (req, response) => {
             try {
                 const verify = jwt.verify(token, secret);
                 res.render("newPassword", {email:verify.email, status:"not verified"})
-                // res.render("./views/newPassword",{email:verify.email,status:"not verified"})
             } catch (error) {
                 console.log(error)
                 res.send("oops! your token has expired. Login again via this link")
@@ -180,5 +179,5 @@ const register = async (req, response) => {
                 res.json({status: "something went wrong"})
             }
         }
-
+// res.render("./views/newPassword",{email:verify.email,status:"not verified"})
 module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword}
