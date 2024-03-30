@@ -91,7 +91,7 @@ const register = async (req, response) => {
             }
         }
 
-        const getAllUsers = async () => {
+        const getAllUsers = async (req,res) => {
             try {
                 const myCustomers = await userModel.find({})
                 res.send({status: "ok", data:myCustomers})

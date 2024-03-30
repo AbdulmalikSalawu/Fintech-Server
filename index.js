@@ -14,7 +14,7 @@ app.use(bodyparser.json({limit:"100mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
 const path = require('path');
 
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs")
 app.use(express.urlencoded({extended: false}))
 
@@ -40,12 +40,12 @@ mongoose.connect(process.env.URI, {
     }).catch((err)=>{
         console.log(err)	
 })
-app.get("/testing", (req,res)=>{res.send("woring")})
+app.get("/testing", (req,res)=>{res.send("working")})
 app.post("/signup", (register))
 app.get("/testApi", test)
 app.post("/login", loginUser)
 app.post("/userData", userData)
-app.post("/allUsers", getAllUsers)
+app.get("/allUsers", getAllUsers)
 app.post("/saveFile", saveFile)
 app.post("/forgot-password", forgotpassword)
 app.get("/reset-password/:id/:token", resetpassword)
