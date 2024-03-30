@@ -174,7 +174,7 @@ const register = async (req, response) => {
                         }
                     }
                 );
-                res.render("newPassword", {email:verify.email,status:"verified"})
+                res.render("updatepassword", {email:verify.email,status:"verified"})
             } catch (error) {
                 console.log(error)
                 res.json({status: "something went wrong"})
