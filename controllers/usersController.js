@@ -146,7 +146,7 @@ const register = async (req, response) => {
             try {
                 const verify = jwt.verify(token, secret);
                 // res.render("newpassword", {email:verify.email, status:"not verified"})
-                res.render("newpassword.ejs", {email:verify.email, status:"not verified"})
+                res.render("newpassword", {email:verify.email, status:"not verified"})
             } catch (error) {
                 console.log(error)
                 res.send("oops! your token has expired. Login again via this link")
