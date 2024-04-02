@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const cors = require("cors");
 const bodyparser = require("body-parser")
 const mongoose = require("mongoose");
+const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 dotenv.config()

@@ -4,7 +4,10 @@ const userModel = require("../models/user.model");
 const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
+const nodemailer = require('nodemailer');
 const bcrypt = require("bcrypt")
+const dotenv = require('dotenv');
+dotenv.config()
 
 cloudinary.config({
     cloud_name: "drxn6gv3x",
@@ -127,8 +130,33 @@ const register = async (req, response) => {
                 const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"15m"})
 
                 //GIVING USERS THE RESET PASSWORD LINK
-                const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
-                // const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
+                // const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+                const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
+
+                //SENDING RESET PASSWORD LINK TO USERS' EMAIL
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: "salawuabdulmalik100@gmail.com",
+                      pass: "vxphzqeazaralhoi"
+                    }
+                  });
+                  
+                  var mailOptions = {
+                    from: "salawuabdulmalik100@gmail.com",
+                    to: 'salawuabdulmalik90@gmail.com',
+                    subject: 'Sending Email using Node.js',
+                    text: link
+                  };
+                  
+                  transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                    }
+                  });
+
                 return res.json({link:link})
             } 
             catch (error){
