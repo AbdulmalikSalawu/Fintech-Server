@@ -130,8 +130,8 @@ const register = async (req, response) => {
                 const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"15m"})
 
                 //GIVING USERS THE RESET PASSWORD LINK
-                // const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
-                const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
+                const link = `http://abdulmalikyinka.onrender.com/reset-password/${oldUser._id}/${token}`;
+                // const link = `http://localhost:5000/reset-password/${oldUser._id}/${token}`;
 
                 //SENDING RESET PASSWORD LINK TO USERS' EMAIL
                 var transporter = nodemailer.createTransport({
@@ -144,7 +144,7 @@ const register = async (req, response) => {
                   
                   var mailOptions = {
                     from: "salawuabdulmalik100@gmail.com",
-                    to: 'salawuabdulmalik90@gmail.com',
+                    to: email,
                     subject: 'Sending Email using Node.js',
                     text: link
                   };
@@ -157,7 +157,7 @@ const register = async (req, response) => {
                     }
                   });
 
-                return res.json({link:link})
+                return res.json({link:"Check your email for a link to reset your password"})
             } 
             catch (error){
                 console.log(error)
