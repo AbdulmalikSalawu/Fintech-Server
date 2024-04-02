@@ -55,7 +55,7 @@ const register = async (req, response) => {
         }
         if(await bcrypt.compare(password,user.password)){
             const token = jwt.sign({email:user.email}, JWT_SECRET, {
-                expiresIn:600,
+                expiresIn:1200,
             });
             if(res.status(201)) {
                 return res.json({status: "ok", data: token});
@@ -208,5 +208,27 @@ const register = async (req, response) => {
                 res.json({status: "something went wrong"})
             }
         }
-// res.render("./views/newPassword",{email:verify.email,status:"not verified"})
-module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword}
+
+        const updateDetails = async (req,res)=>{
+            const {id,fname,lname} = req.body
+            try {
+                await userModel.updateOne(
+                    {
+                        _id: id,
+                    },
+                    {
+                        $set: {
+                            fname:fname,
+                            lname:lname
+                        }
+                    }
+                );
+                return res.json({status:"ok", data:"updated"})
+            } catch (error) {
+                console.log(error)
+                res.json({status: "something went wrong"})
+            }
+        }
+
+
+module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails}
