@@ -210,7 +210,7 @@ const register = async (req, response) => {
         }
 
         const updateDetails = async (req,res)=>{
-            const {id,fname,lname} = req.body
+            const {id,nameone,nametwo} = req.body
             try {
                 await userModel.updateOne(
                     {
@@ -218,12 +218,12 @@ const register = async (req, response) => {
                     },
                     {
                         $set: {
-                            fname:fname,
-                            lname:lname
+                            firstname: nameone,
+                            lastname: nametwo
                         }
                     }
                 );
-                return res.json({status:"ok", data:"updated"})
+                return res.json({status:firstname, data:"updated"})
             } catch (error) {
                 console.log(error)
                 res.json({status: "something went wrong"})
