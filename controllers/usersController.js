@@ -230,5 +230,15 @@ const register = async (req, response) => {
             }
         }
 
+        const deleteUser = async (req,res)=>{
+            const {uniqueid} = req.body
+            try {
+                await userModel.deleteOne({_id:uniqueid})
+                res.send({status: "ok",data: "deleted"})
+            } catch (error) {
+                console.log(error)
+            }
+        }
 
-module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails}
+
+module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser}

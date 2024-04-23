@@ -20,7 +20,7 @@ app.set("view engine", "ejs")
 app.set('views', path.resolve("./views"));
 app.use(express.urlencoded({extended: false}))
 
-const {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails} = require('./controllers/usersController');
+const {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser} = require('./controllers/usersController');
 
 app.use(express.static("public"))
 
@@ -53,3 +53,4 @@ app.post("/forgot-password", forgotpassword)
 app.get("/reset-password/:id/:token", resetpassword)
 app.post("/reset-password/:id/:token", changepassword)
 app.post("/updatedetails", updateDetails)
+app.post("/deleteUser", deleteUser)
