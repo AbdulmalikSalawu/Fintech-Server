@@ -95,29 +95,38 @@ dotenv.config()
             catch(error){
                 console.log(error)
             }
-        }
+        } 
 
         //GETTING ALL USER DETAILS ... GETTING ALL USER DETAILS
         const getAllUsers = async (req,res) => {
             let query = {}
             const searchData = req.query.search;
-            if (searchData){
+            if (searchData!==""){
             query={
                 $or:[
                     {firstname:{$regex:searchData,$options:"i"}},
                     {email:{$regex:searchData,$options:"i"}},
                 ]
-            }}
+            }
             try {
-                const myCustomers = await userModel.find({query})
+                const myCustomers = await userModel.find(query)
                 res.send({status: "ok", data:myCustomers})
             } catch (error) {
                 console.log(error)
             }
+            }
+            else if (searchData == "") {
+                try {
+                    const myCustomers = await userModel.find()
+                    res.send({status: "ok", data:myCustomers})
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }
 
         //SAVING IMAGES AND FILES
-        const saveFile = (req,res)=>{
+        const saveFile = (req,res)=>{  
             const myFile = req.body.file
             const resp = cloudinary.uploader.upload(myFile, {public_id: "olympic_flag"})
             resp.then((data) => {
