@@ -101,13 +101,13 @@ dotenv.config()
         const getAllUsers = async (req,res) => {
             let query = {}
             const searchData = req.query.search;
-            if (searchData);
+            if (searchData){
             query={
                 $or:[
-                    {fname:{$regex:searchData,$options:"i"}},
+                    {firstname:{$regex:searchData,$options:"i"}},
                     {email:{$regex:searchData,$options:"i"}},
                 ]
-            }
+            }}
             try {
                 const myCustomers = await userModel.find({query})
                 res.send({status: "ok", data:myCustomers})
