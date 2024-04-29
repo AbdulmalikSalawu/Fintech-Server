@@ -9,43 +9,45 @@ const bcrypt = require("bcrypt")
 const dotenv = require('dotenv');
 dotenv.config()
 
-cloudinary.config({
-    cloud_name: "drxn6gv3x",
-    api_key: "456564468421393",
-    api_secret: "R4xUn1CG2PpBFSlDzyrdsD4dbyw"
-  });
+    cloudinary.config({
+        cloud_name: "drxn6gv3x",
+        api_key: "456564468421393",
+        api_secret: "R4xUn1CG2PpBFSlDzyrdsD4dbyw"
+    });
 
-const test = (req,res)=>{
-    res.send("hello world")
-}
+    const test = (req,res)=>{
+        res.send("hello world")
+    }
 
-const register = async (req, response) => {
-    const {firstname,lastname,phoneNumber,email,password,newImage}= req.body
-    try{
-        const submitData = await userModel.findOne({email})
-        if(submitData){
-            console.log("user don dey")
-            response.send({message:"user already exists"})
-        }else{
-                try{
-                    const done = await userModel.create({firstname,lastname,phoneNumber,email,password,newImage})
-                        if(done){
-                            response.send({message:"Signup successful",status:true})
-                        } else {
-                            console.log(err)
-                            // response.send({message:"an error occured"})
-                            }
-                }catch(error){
-                    console.log(error)
-                    console.log("data could not be saved")
-                    response.send({message:"an error occured",status:false})
+    //REGISTERING NEW USERS ... REGISTERING NEW USERS
+    const register = async (req, response) => {
+        const {firstname,lastname,phoneNumber,email,password,newImage}= req.body
+        try{
+            const submitData = await userModel.findOne({email})
+            if(submitData){
+                console.log("user don dey")
+                response.send({message:"user already exists"})
+            }else{
+                    try{
+                        const done = await userModel.create({firstname,lastname,phoneNumber,email,password,newImage})
+                            if(done){
+                                response.send({message:"Signup successful",status:true})
+                            } else {
+                                console.log(err)
+                                // response.send({message:"an error occured"})
+                                }
+                    }catch(error){
+                        console.log(error)
+                        console.log("data could not be saved")
+                        response.send({message:"an error occured",status:false})
+                    }
                 }
             }
-        }
-    catch(error){
-        console.log(error)
-    }}
+        catch(error){
+            console.log(error)
+        }}
 
+    //LOGGING USERS IN ... LOGGING USERS IN 
     const loginUser = async (req,res)=>{
         const {email,password} = req.body
         const user = await userModel.findOne({email})
@@ -67,6 +69,7 @@ const register = async (req, response) => {
         console.log("invalid password")
     }
 
+    //GETTING UNIQUE USER DATA ... GETTING UNIQUE USER DATA
     const userData = async (req,res)=>{
         const { token } = req.body;
         try {
@@ -94,6 +97,7 @@ const register = async (req, response) => {
             }
         }
 
+        //GETTING ALL USER DETAILS ... GETTING ALL USER DETAILS
         const getAllUsers = async (req,res) => {
             try {
                 const myCustomers = await userModel.find({})
@@ -103,6 +107,7 @@ const register = async (req, response) => {
             }
         }
 
+        //SAVING IMAGES AND FILES
         const saveFile = (req,res)=>{
             const myFile = req.body.file
             const resp = cloudinary.uploader.upload(myFile, {public_id: "olympic_flag"})
@@ -119,6 +124,7 @@ const register = async (req, response) => {
             });
         }
 
+        //FORGOT PASSWORD FUNCTIONALITY
         const forgotpassword = async (req,res)=>{
             const {email} = req.body;
             try {
@@ -164,6 +170,7 @@ const register = async (req, response) => {
             }
         }    
 
+        //RESETTING USERS' PASSWORD ... RESETTING USERS' PASSWORD
         const resetpassword = async (req,res)=>{
             const {id, token} = req.params;
             const oldUser = await userModel.findOne({_id: id})
@@ -181,6 +188,7 @@ const register = async (req, response) => {
             }
         }
         
+        //CHANGING USERS' PASSWORD ... CHANGING USERS PASSWORD
         const changepassword = async (req,res)=>{
             const { id, token} = req.params;
             const {password} = req.body 
@@ -209,6 +217,7 @@ const register = async (req, response) => {
             }
         }
 
+        //UPDATING USER DETAILS ... UPDATING USER DETAILS
         const updateDetails = async (req,res)=>{
             const {id,nameone,nametwo} = req.body
             try {
@@ -230,6 +239,7 @@ const register = async (req, response) => {
             }
         }
 
+        //DELETING USERS ... DELETING USERS
         const deleteUser = async (req,res)=>{
             const {uniqueid} = req.body
             try {
