@@ -5,6 +5,8 @@ const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const nodemailer = require('nodemailer');
+const stripe = require('stripe')('sk_test_51PBFE62KbV1mFm0D8dJf8v5ObqqUFxMHS26TBwpjsUFwhguYIhI4povFUsDTsnAIaJZWd3YCRjecqetq2KVFNMbN001OD1rU26')
+require("dotenv").config()
 const bcrypt = require("bcrypt")
 const dotenv = require('dotenv');
 dotenv.config()
@@ -18,6 +20,8 @@ dotenv.config()
     const test = (req,res)=>{
         res.send("hello world")
     }
+
+    const Stripe = stripe(process.env.STRIPE_KEY)
 
     //REGISTERING NEW USERS ... REGISTERING NEW USERS
     const register = async (req, response) => {
@@ -268,5 +272,28 @@ dotenv.config()
             }
         }
 
+        //STRIPE CHECKOUT PAYMENT INTEGRATION
+        const createCheckoutSession = async (req,res)=>{
+            const session = await Stripe.checkout.sessions.create({
+                line_items: [
+                  {
+                    price_data: {
+                      currency: 'usd',
+                      product_data: {
+                        name: 'T-shirt',
+                      },
+                      unit_amount: 2000,
+                    },
+                    quantity: 1,
+                  },
+                ],
+                mode: 'payment',
+                success_url: `${process.env.CLIENT_URL}/checkout-success`,
+                cancel_url: `${process.env.CLIENT_URL}/cart`,
+              });
+            
+              res.send({url: session.url});
+        }
 
-module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser}
+
+module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser,createCheckoutSession}
