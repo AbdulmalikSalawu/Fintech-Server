@@ -5,8 +5,9 @@ const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const nodemailer = require('nodemailer');
-const Stripe = require('stripe')('sk_test_51PBFE62KbV1mFm0D8dJf8v5ObqqUFxMHS26TBwpjsUFwhguYIhI4povFUsDTsnAIaJZWd3YCRjecqetq2KVFNMbN001OD1rU26')
+const Stripe = require("stripe");
 require("dotenv").config()
+const stripe = Stripe(process.env.STRIPE_KEY)
 const bcrypt = require("bcrypt")
 const dotenv = require('dotenv');
 dotenv.config()
@@ -21,7 +22,6 @@ dotenv.config()
         res.send("hello world")
     }
 
-    const stripe = Stripe(process.env.STRIPE_KEY)
 
     //REGISTERING NEW USERS ... REGISTERING NEW USERS
     const register = async (req, response) => {
