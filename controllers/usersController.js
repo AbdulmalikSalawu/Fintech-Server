@@ -274,7 +274,7 @@ dotenv.config()
 
         //STRIPE CHECKOUT PAYMENT INTEGRATION
         const createCheckoutSession = async (req,res)=>{
-            const session = await stripe.checkout.sessions.create({
+            try {const session = await stripe.checkout.sessions.create({
                 line_items: [
                   {
                     price_data: {
@@ -292,7 +292,10 @@ dotenv.config()
                 cancel_url: `${process.env.CLIENT_URL}/cart`,
               });
             
-              res.send({url: session.url});
+              res.send({url: session.url})}
+              catch (error) {
+                console.log(error)
+              };
         }
 
 
