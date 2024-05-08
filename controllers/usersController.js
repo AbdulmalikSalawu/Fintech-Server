@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const nodemailer = require('nodemailer');
-const Stripe = require("stripe");
+const Stripe = require("stripe")(process.env.STRIPE_KEY);
 require("dotenv").config()
 const stripe = Stripe(process.env.STRIPE_KEY)
 const bcrypt = require("bcrypt")
@@ -274,6 +274,7 @@ dotenv.config()
 
         //STRIPE CHECKOUT PAYMENT INTEGRATION
         const createCheckoutSession = async (req,res)=>{
+            
             try {const session = await stripe.checkout.sessions.create({
                 line_items: [
                   {
