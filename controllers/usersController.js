@@ -5,9 +5,9 @@ const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const nodemailer = require('nodemailer');
-const Stripe = require("stripe")(process.env.STRIPE_KEY);
+const stripe = require("stripe")(process.env.STRIPE_KEY)
 require("dotenv").config()
-const stripe = Stripe(process.env.STRIPE_KEY)
+// const stripe = Stripe(process.env.STRIPE_KEY)
 const bcrypt = require("bcrypt")
 const dotenv = require('dotenv');
 dotenv.config()
@@ -289,8 +289,8 @@ dotenv.config()
                   },
                 ],
                 mode: 'payment',
-                success_url: `${process.env.CLIENT_URL}/checkout-success`,
-                cancel_url: `${process.env.CLIENT_URL}/cart`,
+                success_url: `${process.env.CLIENT_URL}/paysuccess`,
+                cancel_url: `${process.env.CLIENT_URL}/carts`,
               });
             
               res.send({url: session.url})}
