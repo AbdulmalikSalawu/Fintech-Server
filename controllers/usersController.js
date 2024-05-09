@@ -292,8 +292,8 @@ dotenv.config()
                 success_url: `${process.env.CLIENT_URL}/paysuccess`,
                 cancel_url: `${process.env.CLIENT_URL}/carts`,
               });
-            
-              res.send({url: session.url})}
+              res.json({id:session.id})}
+            //   res.send({url: session.url})}
               catch (error) {
                 console.log(error)
               };
