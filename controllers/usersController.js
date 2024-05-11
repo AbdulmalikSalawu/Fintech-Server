@@ -274,26 +274,27 @@ dotenv.config()
 
         //STRIPE CHECKOUT PAYMENT INTEGRATION
         const createCheckoutSession = async (req,res)=>{
-            
-            try {const session = await stripe.checkout.sessions.create({
-                line_items: [
-                  {
+            const line_items = req.body.itemInCart.map((item)=> {
+                return{
                     price_data: {
-                      currency: 'usd',
-                      product_data: {
-                        name: 'T-shirt',
+                        currency: 'ngn',
+                        product_data: {
+                          name: item.itemName,
+                          images: [item.itemURL],
+                        },
+                        unit_amount: item.itemPrice * 100,
                       },
-                      unit_amount: 2000,
-                    },
-                    quantity: 1,
-                  },
-                ],
+                      quantity: item.cartQuantity,
+                }
+            })
+            try {const session = await stripe.checkout.sessions.create({
+                line_items,
                 mode: 'payment',
                 success_url: `${process.env.CLIENT_URL}/paysuccess`,
                 cancel_url: `${process.env.CLIENT_URL}/carts`,
               });
-              res.json({id:session.id})}
-            //   res.send({url: session.url})}
+            //   res.json({id:session.id})}
+              res.send({url: session.url})}
               catch (error) {
                 console.log(error)
               };
