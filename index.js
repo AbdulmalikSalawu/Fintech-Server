@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 dotenv.config()
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000 https://yinka-meals.netlify.app',
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type','Authorization'],
 }))
