@@ -15,7 +15,7 @@ app.use(cors({
     // origin: 'http://localhost:3000 https://yinka-meals.netlify.app',
     origin: function(origin, callback){
         if(!origin) return callback(null, true);
-        const allowedOrigins = ['http://localhost:3000', 'https://yinka-meals.netlify.app'];
+        const allowedOrigins = ['http://localhost:3000', 'https://yinka-meals.netlify.app', 'https://savewithmalik.netlify.app'];
         if(allowedOrigins.includes(origin)){
           callback(null,true)
         }else{
