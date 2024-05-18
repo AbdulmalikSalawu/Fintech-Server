@@ -11,20 +11,21 @@ const nodemailer = require('nodemailer');
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 dotenv.config()
-app.use(cors({
-    // origin: 'http://localhost:3000 https://yinka-meals.netlify.app',
-    origin: function(origin, callback){
-        if(!origin) return callback(null, true);
-        const allowedOrigins = ['http://localhost:3000', 'https://yinka-meals.netlify.app', 'https://savewithmalik.netlify.app/resetpassword', 'https://abdulmalikyinka.onrender.com'];
-        if(allowedOrigins.includes(origin)){
-          callback(null,true)
-        }else{
-          callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type','Authorization','Access-Control-Allow-Origin'],
-}))
+app.use(cors())
+// app.use(cors({
+//     // origin: 'http://localhost:3000 https://yinka-meals.netlify.app',
+//     origin: function(origin, callback){
+//         if(!origin) return callback(null, true);
+//         const allowedOrigins = ['http://localhost:3000', 'https://yinka-meals.netlify.app', 'https://savewithmalik.netlify.app/resetpassword', 'https://abdulmalikyinka.onrender.com'];
+//         if(allowedOrigins.includes(origin)){
+//           callback(null,true)
+//         }else{
+//           callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+//     methods: ['GET', 'POST', 'OPTIONS'],
+//     allowedHeaders: ['Content-Type','Authorization'],
+// }))
 app.options('*', cors());
 app.use(bodyparser.json({limit:"100mb"}))
 app.use(bodyparser.urlencoded({extended:true,limit:"50mb"}));
