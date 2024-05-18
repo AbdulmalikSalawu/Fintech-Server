@@ -84,7 +84,7 @@ dotenv.config()
                 return res;
             });
             if(uniqueUser=="token expired"){
-                return res.json({status: "error", data: "token expired"})
+                return res.json({status: "error", data: "token expired oo"})
             }
 
             const useremail = uniqueUser.email;

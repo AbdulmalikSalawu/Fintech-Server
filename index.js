@@ -23,7 +23,7 @@ app.use(cors({
         }
     },
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type','Authorization'],
+    allowedHeaders: ['Content-Type','Authorization','Access-Control-Allow-Origin'],
 }))
 app.options('*', cors());
 app.use(bodyparser.json({limit:"100mb"}))
