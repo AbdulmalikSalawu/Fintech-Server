@@ -300,5 +300,44 @@ dotenv.config()
               };
         }
 
+        //PAYSTACK CHECKOUT PAYMENT INTEGRATION
+        const paywithpaystack = async (req,res)=>{
+            const https = require('https')
 
-module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser,createCheckoutSession}
+            const params = JSON.stringify({
+            "email": "customer@email.com",
+            "amount": "20000"
+            })
+
+            const options = {
+            hostname: 'api.paystack.co',
+            port: 443,
+            path: '/transaction/initialize',
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer sk_test_8be4f5c4b8769475f9c7fee5ba7f188e303879aa',
+                'Content-Type': 'application/json'
+            }
+            }
+
+            const reqPaystack = https.request(options, resPaystack => {
+            let data = ''
+
+            resPaystack.on('data', (chunk) => {
+                data += chunk
+            });
+
+            resPaystack.on('end', () => {
+                res.send(data)
+                console.log(JSON.parse(data))
+            })
+            }).on('error', error => {
+            console.error(error)
+            })
+
+            reqPaystack.write(params)
+            reqPaystack.end()
+                    }
+
+
+module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser,createCheckoutSession,paywithpaystack}
