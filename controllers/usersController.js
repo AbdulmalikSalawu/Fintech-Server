@@ -302,11 +302,20 @@ dotenv.config()
 
         //PAYSTACK CHECKOUT PAYMENT INTEGRATION
         const paywithpaystack = async (req,res)=>{
-            const https = require('https')
+            const https = require('https') 
+            
+            const amount = req.body.totalCost
+            const email = req.body.email
+            if (typeof amount === 'number' && amount > 0 && Number.isInteger(amount)) {
+               console.log("success");
+              } else {
+               console.log("failed")
+              }
 
+            // 3
             const params = JSON.stringify({
-            "email": "customer@email.com",
-            "amount": "20000"
+            "email":  email,
+            "amount": amount*100
             })
 
             const options = {
@@ -337,7 +346,9 @@ dotenv.config()
 
             reqPaystack.write(params)
             reqPaystack.end()
-                    }
+                }
 
 
-module.exports = {register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser,createCheckoutSession,paywithpaystack}
+module.exports = {
+    register,test,loginUser,userData,getAllUsers,saveFile,forgotpassword,resetpassword,changepassword,updateDetails,deleteUser,createCheckoutSession,paywithpaystack
+}
