@@ -255,7 +255,7 @@ dotenv.config()
                         }
                     }
                 );
-                return res.json({status:firstname, data:"updated"})
+                return res.json({data:"updated"})
             } catch (error) {
                 console.log(error)
                 res.json({status: "something went wrong"})
