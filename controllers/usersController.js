@@ -241,7 +241,7 @@ dotenv.config()
 
         //UPDATING USER DETAILS ... UPDATING USER DETAILS
         const updateDetails = async (req,res)=>{
-            const {id,nameone,nametwo} = req.body
+            const {id,nameone,nametwo,imagenew} = req.body
             try {
                 await userModel.updateOne(
                     {
@@ -250,7 +250,8 @@ dotenv.config()
                     {
                         $set: {
                             firstname: nameone,
-                            lastname: nametwo
+                            lastname: nametwo,
+                            newImage:imagenew
                         }
                     }
                 );
@@ -300,7 +301,6 @@ dotenv.config()
               };
         }
 
-        //PAYSTACK CHECKOUT PAYMENT INTEGRATION
         const paywithpaystack = async (req,res)=>{
             const https = require('https') 
             
