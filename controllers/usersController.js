@@ -3,7 +3,6 @@ const app = express();
 const userModel = require("../models/user.model");
 const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken")
-const JWT_SECRET = "skdjsidj9393202e2ejwoksls93e209203920siiiored"
 const nodemailer = require('nodemailer');
 const stripe = require("stripe")(process.env.STRIPE_KEY)
 require("dotenv").config()
@@ -60,7 +59,7 @@ dotenv.config()
             return res.json({error:"user not found oooo"})
         }
         if(await bcrypt.compare(password,user.password)){
-            const token = jwt.sign({email:user.email}, JWT_SECRET, {
+            const token = jwt.sign({email:user.email}, process.env.JWT_SECRET, {
                 expiresIn:1200,
             });
             if(res.status(201)) {
@@ -77,7 +76,7 @@ dotenv.config()
     const userData = async (req,res)=>{
         const { token } = req.body;
         try {
-            const uniqueUser = jwt.verify(token, JWT_SECRET,(err,res) => {
+            const uniqueUser = jwt.verify(token, process.env.JWT_SECRET,(err,res) => {
                 if(err){
                     return "token expired";
                 }
@@ -154,7 +153,7 @@ dotenv.config()
                 if(!oldUser){
                     return res.json({status:"user doesn't exist"})
                 }
-                const secret = JWT_SECRET + oldUser.password;
+                const secret = process.env.JWT_SECRET + oldUser.password;
                 const token = jwt.sign({ email: oldUser.email, id: oldUser.id}, secret, {expiresIn:"15m"})
 
                 //GIVING USERS THE RESET PASSWORD LINK
@@ -199,7 +198,7 @@ dotenv.config()
             if(!oldUser){
                 return res.json({status:"user doesn't exist"})
             }
-            const secret = JWT_SECRET + oldUser.password;
+            const secret = process.env.JWT_SECRET + oldUser.password;
             try {
                 const verify = jwt.verify(token, secret);
                 // res.render("newpassword", {email:verify.email, status:"not verified"})
@@ -218,7 +217,7 @@ dotenv.config()
             if(!oldUser){
                 return res.json({status:"user doesn't exist"})
             }
-            const secret = JWT_SECRET + oldUser.password;
+            const secret = process.env.JWT_SECRET + oldUser.password;
             try {
                 const verify = jwt.verify(token, secret);
                 const encryptedPassword = await bcrypt.hash(password, 10);
@@ -324,7 +323,7 @@ dotenv.config()
             path: '/transaction/initialize',
             method: 'POST',
             headers: {
-                Authorization: 'Bearer sk_test_8be4f5c4b8769475f9c7fee5ba7f188e303879aa',
+                Authorization: `Bearer ${process.env.PAYSTACK_KEY}`,
                 'Content-Type': 'application/json'
             }
             }
