@@ -13,14 +13,13 @@ dotenv.config()
 
     cloudinary.config({
         cloud_name: "drxn6gv3x",
-        api_key: "456564468421393",
-        api_secret: "R4xUn1CG2PpBFSlDzyrdsD4dbyw"
+        api_key: process.env.CLOUDINARY_KEY,
+        api_secret: process.env.CLOUDINARY_SECRET
     });
 
     const test = (req,res)=>{
         res.send("hello world")
     }
-
 
     //REGISTERING NEW USERS ... REGISTERING NEW USERS
     const register = async (req, response) => {
